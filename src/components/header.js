@@ -5,9 +5,9 @@ import {Appbar, Title} from 'react-native-paper'
 function Header({titleText}) {
     return (
         <Appbar.Header style = {styles.headerContainer}>
-            <view style = {styles.container}>
+            <View style = {styles.container}>
                 <Title style = {styles.title}>{titleText}</Title>
-            </view>
+            </View>
         </Appbar.Header>
     )
 }
