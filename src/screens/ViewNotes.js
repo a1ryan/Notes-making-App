@@ -2,14 +2,25 @@ import React, {useState} from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
 import { Text,FAB,List } from 'react-native-paper';
 import Header from '../components/header';
+import {useSelector, useDispatch} from 'react-redux';
+import {addnote, deletenote} from '../reducers/noteApp'
 
 function ViewNotes({navigation}) {
-    const [notes, setNotes] = useState([]);
+    // const [notes, setNotes] = useState([]);
+     const notes = useSelector(state => state)
+     const dispatch = useDispatch()
+
+     const addNote = note => {
+         console.log(note)
+         dispatch(addnote(note))
+     }
     
-    const addNotes = note => {
-        note.id = notes.length + 1
-        setNotes([...notes, note])
-    }
+     const deleteNote = id =>dispatch(deletenote(id))
+
+    // const addNotes = note => {
+    //     note.id = notes.length + 1
+    //     setNotes([...notes, note])
+    // }
 
     return (
         <>
@@ -24,10 +35,11 @@ function ViewNotes({navigation}) {
                         data = {notes}
                         renderItem = {({item}) => (
                             <List.Item
-                                title = {item.noteTitle}
-                                description = {item.noteDescription}
+                                title = {item.note.noteTitle}
+                                description = {item.note.noteDescription}
                                 descriptionNumberOfLines = {1}
                                 titleStyle = {styles.listTitle}
+                                onPress = {() => deleteNote(item.id)}
                             />
                         )}
                             keyExtractor = {item => item.id.toString()}
@@ -39,7 +51,7 @@ function ViewNotes({navigation}) {
                 small
                 icon = 'plus'
                 label = 'Add Note'
-                onPress = {() => navigation.navigate('AddNotes', { addNotes })}
+                onPress = {() => navigation.navigate('AddNotes', { addNote })}
             />
         </View>
         </>
